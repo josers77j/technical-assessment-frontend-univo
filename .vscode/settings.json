@@ -1,0 +1,17 @@
+{
+    "files.autoSave": "afterDelay",
+    "editor.wordWrap": "on",
+    "scm.compactFolders": false,
+    "angular-schematics.schematicsDefaultOptions": {
+        "angular-*": {
+            "skipStyle": true,
+            "externalTemplate": true
+        },
+        "angular-component": {
+            "skipChangeDetectionOnPush": true
+        },
+        "angular-page": {
+            "skipChangeDetectionOnPush": true
+        }
+    }
+}
