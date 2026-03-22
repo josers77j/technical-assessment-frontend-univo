@@ -36,14 +36,13 @@
       <ul class="menu bg-base-300 w-full flex-1  gap-1">
         <!-- List item -->
         <li>
-          <button routerLink="/products/list"
+          <button routerLink="/products"
             routerLinkActive="bg-info text-info-content"
-            [routerLinkActiveOptions]="{ exact: true }"
             class=" is-drawer-close:tooltip is-drawer-close:tooltip-right flex items-center gap-3 h-12"
             data-tip="Productos"
             (click)="closeDrawerIfMobile(drawerToggle)">
             <!-- Settings icon -->
-            <span class="icon-[fluent-mdl2--product]"></span>
+            <span class="icon-[fluent-mdl2--product] text-2xl"></span>
             <span
               class="
               is-drawer-close:hidden
@@ -56,15 +55,14 @@
           </button>
         </li>
 
-        <li>
-          <button routerLink="/providers/list"
+                <li>
+          <button routerLink="/providers"
             routerLinkActive="bg-info text-info-content"
-            [routerLinkActiveOptions]="{ exact: true }"
             class=" is-drawer-close:tooltip is-drawer-close:tooltip-right flex items-center gap-3 h-12"
             data-tip="Proveedores"
             (click)="closeDrawerIfMobile(drawerToggle)">
             <!-- Settings icon -->
-           <span class="icon-[material-symbols--support]"></span>
+           <span class="icon-[material-symbols--support] text-2xl"></span>
             <span
               class="
               is-drawer-close:hidden

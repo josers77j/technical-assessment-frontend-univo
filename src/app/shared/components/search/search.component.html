@@ -1,0 +1,19 @@
+ <div class="join w-full">
+    <label class="input join-item w-full">
+        <span class="icon-[jam--search] opacity-50"></span>
+        <input
+            #txtSearch
+            type="text"
+            placeholder="Término de búsqueda"
+            class="w-full"
+            (keyup.enter)="outputParam.emit(inputValue())"
+            (keyup)="inputValue.set(txtSearch.value)"
+            [value]="inputValue()" />
+    </label>
+    <button
+        class="btn btn-soft btn-info join-item"
+        (click)="outputParam.emit(inputValue())">
+        <span
+            class="icon-[jam--search] text-2xl">
+        </span> Buscar</button>
+</div>

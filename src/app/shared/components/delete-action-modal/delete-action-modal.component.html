@@ -1,0 +1,24 @@
+<!-- Open the modal using ID.showModal() method -->
+<dialog #deleteDialog id="my_modal_1" class="modal">
+    <div class="modal-box">
+        <h3 class="text-lg font-bold">Advertencia!</h3>
+        <p class="py-4">Esta a punto de eliminar este registro. ¿Esta seguro?</p>
+        <div class="modal-action">
+
+            <form method="dialog">
+                <!-- if there is a button in form, it will close the modal -->
+                <button class="btn" [disabled]="deleteModalService.state() === 'loading' ">Cancelar</button>
+            </form>
+            <button
+                class="btn btn-error"
+                [disabled]="deleteModalService.state() === 'loading' "
+                (click)="onModalConfirmed()">
+                <span
+                    class="loading loading-spinner loading-lg"
+                    [hidden]="deleteModalService.state() !== 'loading'"></span>
+                Eliminar
+            </button>
+
+        </div>
+    </div>
+</dialog>

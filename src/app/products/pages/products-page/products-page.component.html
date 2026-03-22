@@ -1,1 +1,125 @@
-<p>products-page works!</p>,
+@if(productsQuery.error()){
+<error-banner
+  [errorBanner]="{message: 'Ocurrió un error inesperado', error: productsQuery.error()?.message ?? 'Verifique los logs del servidor'}"></error-banner>
+}
+
+@if(!productsQuery.error()){
+  <app-title [titleDetail]="titleData()" />
+
+<div class="divider"></div>
+
+
+<div class="grid grid-cols-1 md:grid-cols-[180px_1fr] gap-3">
+  <app-limit [limitInput]="limitPerPage()" (outputLimit)="onNewLimit($event)" />
+  <button class="btn btn-soft" (click)="openToggle()">
+    @if(isOpen()){Ocultar filtros} @else {Mostrar filtros}
+  </button>
+</div>
+
+<div class="animate-fadeIn" [class.hidden]="!isOpen()">
+  <div class="mt-5 mb-5">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 w-full mb-5">
+      <label class="floating-label w-full">
+        <span>Buscar por nombre</span>
+        <input
+          #txtFilter
+          class="input input-bordered w-full"
+          placeholder="Laptop, monitor..."
+          (keyup)="setFilter(txtFilter.value)"
+          [value]="selectedFilter()" />
+      </label>
+
+      <label class="floating-label w-full">
+        <span>Campos (fields)</span>
+        <input
+          #txtFields
+          class="input input-bordered w-full"
+          placeholder="id,name,price"
+          (keyup)="setFields(txtFields.value)"
+          [value]="formSearchParams().fields ?? ''" />
+      </label>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-3 w-full mb-5">
+      <label class="floating-label w-full">
+        <span>Precio minimo</span>
+        <input
+          #txtPriceMin
+          class="input input-bordered w-full"
+          placeholder="0"
+          inputmode="decimal"
+          (keyup)="setPriceMin(txtPriceMin.value)"
+          [value]="formSearchParams().priceMin ?? ''" />
+      </label>
+
+      <label class="floating-label w-full">
+        <span>Precio maximo</span>
+        <input
+          #txtPriceMax
+          class="input input-bordered w-full"
+          placeholder="1000"
+          inputmode="decimal"
+          (keyup)="setPriceMax(txtPriceMax.value)"
+          [value]="formSearchParams().priceMax ?? ''" />
+      </label>
+
+      <label class="floating-label w-full">
+        <span>Orden (sort)</span>
+        <select
+          #txtSort
+          class="select select-bordered w-full"
+          (change)="setSort(txtSort.value)"
+          [value]="formSearchParams().sort ?? ''">
+          <option value="">Sin orden</option>
+          <option value="name">Nombre asc</option>
+          <option value="-name">Nombre desc</option>
+          <option value="price">Precio asc</option>
+          <option value="-price">Precio desc</option>
+          <option value="createdAt">Fecha asc</option>
+          <option value="-createdAt">Fecha desc</option>
+        </select>
+      </label>
+
+
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+      <button class="btn btn-soft btn-info" (click)="onSearch()">
+        <span class="icon-[jam--search] text-2xl"></span>
+        Buscar
+      </button>
+
+      <button class="btn btn-soft" (click)="clearSearch()">Limpiar filtros</button>
+    </div>
+  </div>
+</div>
+
+<div class="flex flex-col gap-4 mt-5">
+  <div class="flex justify-end">
+    <button class="btn btn-soft btn-success" [routerLink]="['/products/page', '0']">
+      <span class="icon-[gridicons--create] text-2xl"></span>
+      Crear nuevo registro
+    </button>
+  </div>
+
+  <app-pagination
+    [currentPage]="productsQuery.data()?.currentPage ?? 1"
+    [totalPages]="productsQuery.data()?.totalPages ?? 1"></app-pagination>
+
+
+
+  <product-table
+    [products]="productsQuery.data()?.itemsArray ?? []"
+    [isLoading]="productsQuery.isLoading()"
+    [skeletonLimit]="limitPerPage()"
+    (deleteClicked)="openDeleteModal($event)"></product-table>
+
+  <app-pagination
+    [currentPage]="productsQuery.data()?.currentPage ?? 1"
+    [totalPages]="productsQuery.data()?.totalPages ?? 1"></app-pagination>
+</div>
+
+<delete-action-modal />
+<app-alert />
+
+}

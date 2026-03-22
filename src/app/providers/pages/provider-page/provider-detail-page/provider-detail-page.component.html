@@ -1,0 +1,42 @@
+<div class="flex items-center justify-between gap-3 mb-6">
+  <h1 class="text-2xl font-bold">
+    @if(isEditMode()){Editar proveedor} @else {Crear proveedor}
+  </h1>
+
+  <a class="btn btn-ghost" [routerLink]="['/providers/list']">Regresar</a>
+</div>
+
+<form [formGroup]="form" class="grid grid-cols-1 md:grid-cols-2 gap-4" (ngSubmit)="onSubmit()">
+  <label class="floating-label md:col-span-2">
+    <span>Nombre</span>
+    <input class="input input-bordered w-full" formControlName="name" placeholder="Nombre del proveedor" />
+    @if(isValidField('name')){
+    <p class="text-error text-sm mt-1">{{ getFieldError('name') }}</p>
+    }
+  </label>
+
+  <label class="floating-label md:col-span-2">
+    <span>Direccion</span>
+    <input class="input input-bordered w-full" formControlName="address" placeholder="Direccion" />
+  </label>
+
+  <label class="floating-label">
+    <span>Telefono</span>
+    <input class="input input-bordered w-full" formControlName="phone" placeholder="Telefono" />
+  </label>
+
+  <div></div>
+
+  <label class="floating-label md:col-span-2">
+    <span>Descripcion</span>
+    <textarea class="textarea textarea-bordered w-full" rows="4" formControlName="description"></textarea>
+  </label>
+
+  <div class="md:col-span-2 flex justify-end gap-3 mt-2">
+    <a class="btn btn-ghost" [routerLink]="['/providers/list']">Cancelar</a>
+    <button class="btn btn-success" type="submit" [disabled]="mutationSave.isPending()">
+      <span class="loading loading-spinner" [class.hidden]="!mutationSave.isPending()"></span>
+      Guardar
+    </button>
+  </div>
+</form>

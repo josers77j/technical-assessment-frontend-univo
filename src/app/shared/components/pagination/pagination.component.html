@@ -1,0 +1,21 @@
+<div class="join flex justify-start">
+
+    @for(page of paginationList(); track $index){
+
+    @if(typeof page === 'number'){
+    <button
+        class="join-item btn"
+        [class.btn-info]="page === activePage()"
+        [routerLink]="[]"
+        [queryParams]="{page: page}"
+        [queryParamsHandling]="'merge'"
+        (click)="activePage.set(+page)">
+        {{page}}
+    </button>
+    }
+    @if(page === '...'){
+    <button class="join-item btn btn-disabled">...</button>
+    }
+    }
+
+</div>

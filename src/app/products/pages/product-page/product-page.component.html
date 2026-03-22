@@ -1,1 +1,5 @@
-<p>product-page.component works!</p>,
+<app-product-detail-page
+	[product]="productQuery.data()"
+	[productId]="productId()"
+	[isEditMode]="isEditMode()"
+/>

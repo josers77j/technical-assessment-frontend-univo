@@ -1,0 +1,62 @@
+<div class="overflow-x-auto">
+
+  <table class="table table-zebra min-w-max">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Nombre</th>
+        <th scope="col">Precio</th>
+        <th scope="col">Proveedor</th>
+        <th scope="col">Categoría</th>
+        <th scope="col">Stock</th>
+        <th scope="col" class="text-right">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for(product of products(); track product.id; ){
+      <tr class="transition-all ease-in delay-50">
+        <th scope="row">{{product.id}}</th>
+        <td>{{product.name}}</td>
+        <td>{{product.price | currency}}</td>
+        <td>{{product.provider?.name || '-'}}</td>
+        <td>{{product.category || '-'}}</td>
+        <td>
+          <span class="badge badge-soft">{{product.stockQuantity ?? 0}}</span>
+        </td>
+        <td class="text-right">
+          <div class="join">
+            <a
+              class="btn btn-sm btn-ghost join-item"
+              [routerLink]="['/products/page', product.id]">
+              Editar
+            </a>
+            <a
+              class="btn btn-sm btn-soft join-item"
+              [routerLink]="['/products/detail', product.id]">
+              Detalle
+            </a>
+            <button
+              type="button"
+              class="btn btn-sm btn-error btn-soft join-item"
+              (click)="onDelete(product.id)">
+              Eliminar
+            </button>
+          </div>
+        </td>
+      </tr>
+      }
+      @empty {
+      @if(isLoading()){
+      <tr>
+        <td colspan="99"><skeleton [limit]="skeletonLimit()"></skeleton></td>
+      </tr>
+      } @else {
+      <tr>
+        <td colspan="99">No hay registros</td>
+      </tr>
+      }
+      }
+
+    </tbody>
+  </table>
+</div>

@@ -1,1 +1,7 @@
-<p>provider-page.component works!</p>,
+<app-provider-detail-page
+	[provider]="providerQuery.data()"
+	[providerId]="providerId()"
+	[isEditMode]="isEditMode()"
+/>
+
+<app-alert />

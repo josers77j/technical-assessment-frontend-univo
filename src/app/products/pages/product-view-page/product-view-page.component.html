@@ -1,0 +1,75 @@
+<div class="flex items-center justify-between gap-3 mb-6">
+  <h1 class="text-2xl font-bold">Detalle del producto</h1>
+
+  <div class="flex gap-2">
+    <a class="btn btn-ghost" [routerLink]="['/products/list']">Regresar</a>
+    <a class="btn btn-soft" [routerLink]="['/products/page', productId()]">Editar</a>
+  </div>
+</div>
+
+@if(productQuery.isLoading()){
+<div class="flex items-center gap-2">
+  <span class="loading loading-spinner"></span>
+  <span>Cargando producto...</span>
+</div>
+} @else {
+@if(productQuery.data(); as product){
+<div class="card bg-base-200 shadow-sm">
+  <div class="card-body grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div>
+      <p class="text-sm opacity-70">ID</p>
+      <p class="font-medium">{{ product.id }}</p>
+    </div>
+
+    <div>
+      <p class="text-sm opacity-70">Nombre</p>
+      <p class="font-medium">{{ product.name }}</p>
+    </div>
+
+    <div>
+      <p class="text-sm opacity-70">Precio</p>
+      <p class="font-medium">{{ product.price | currency }}</p>
+    </div>
+
+    <div>
+      <p class="text-sm opacity-70">Stock</p>
+      <p class="font-medium">{{ product.stockQuantity ?? 0 }}</p>
+    </div>
+
+    <div>
+      <p class="text-sm opacity-70">SKU</p>
+      <p class="font-medium">{{ product.sku || '-' }}</p>
+    </div>
+
+    <div>
+      <p class="text-sm opacity-70">Categoria</p>
+      <p class="font-medium">{{ product.category || '-' }}</p>
+    </div>
+
+    <div>
+      <p class="text-sm opacity-70">Proveedor</p>
+      <p class="font-medium">{{ product.provider?.name || product.providerId }}</p>
+    </div>
+
+    <div>
+      <p class="text-sm opacity-70">Creado</p>
+      <p class="font-medium">{{ product.createdAt | date: 'medium' }}</p>
+    </div>
+
+    <div>
+      <p class="text-sm opacity-70">Actualizado</p>
+      <p class="font-medium">{{ product.updatedAt | date: 'medium' }}</p>
+    </div>
+
+    <div class="md:col-span-2">
+      <p class="text-sm opacity-70">Descripcion</p>
+      <p class="font-medium whitespace-pre-wrap">{{ product.description || '-' }}</p>
+    </div>
+  </div>
+</div>
+} @else {
+<div class="alert alert-warning">
+  No se encontro el producto.
+</div>
+}
+}

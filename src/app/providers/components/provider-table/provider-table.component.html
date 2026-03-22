@@ -1,0 +1,51 @@
+<div class="overflow-x-auto">
+  <table class="table table-zebra min-w-max">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Nombre</th>
+        <th scope="col">Dirección</th>
+        <th scope="col">Teléfono</th>
+        <th scope="col">Creado</th>
+        <th scope="col" class="text-right">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for(provider of providers(); track provider.id; ){
+      <tr>
+        <th scope="row">{{provider.id}}</th>
+        <td>{{provider.name}}</td>
+        <td>{{provider.address || '-'}}</td>
+        <td>{{provider.phone || '-'}}</td>
+        <td>{{provider.createdAt | date}}</td>
+        <td class="text-right">
+          <div class="join">
+            <a
+              class="btn btn-sm btn-ghost join-item"
+              [routerLink]="['/providers/detail', provider.id]">
+              Editar
+            </a>
+            <button
+              type="button"
+              class="btn btn-sm btn-error btn-soft join-item"
+              (click)="onDelete(provider.id)">
+              Eliminar
+            </button>
+          </div>
+        </td>
+      </tr>
+      }
+      @empty {
+      @if(isLoading()){
+      <tr>
+        <td colspan="99"><skeleton [limit]="skeletonLimit()"></skeleton></td>
+      </tr>
+      } @else {
+      <tr>
+        <td colspan="99">No hay registros</td>
+      </tr>
+      }
+      }
+    </tbody>
+  </table>
+</div>

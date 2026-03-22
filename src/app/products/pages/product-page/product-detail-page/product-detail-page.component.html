@@ -1,0 +1,82 @@
+<div class="flex items-center justify-between gap-3 mb-6">
+  <h1 class="text-2xl font-bold">
+    @if(isEditMode()){Editar producto} @else {Crear producto}
+  </h1>
+
+  <a class="btn btn-ghost" [routerLink]="['/products/list']">Regresar</a>
+</div>
+
+<form [formGroup]="form" class="grid grid-cols-1 md:grid-cols-2 gap-4" (ngSubmit)="onSubmit()">
+  <label class="floating-label md:col-span-2">
+    <span>Nombre</span>
+    <input class="input input-bordered w-full" formControlName="name" placeholder="Nombre del producto" />
+    @if(isValidField('name')){
+    <p class="text-error text-sm mt-1">{{ getFieldError('name') }}</p>
+    }
+  </label>
+
+  <label class="floating-label">
+    <span>Precio</span>
+    <input class="input input-bordered w-full" formControlName="price" type="number" min="0" step="0.01" />
+    @if(isValidField('price')){
+    <p class="text-error text-sm mt-1">{{ getFieldError('price') }}</p>
+    }
+  </label>
+
+  <label class="floating-label">
+    <span>Stock</span>
+    <input class="input input-bordered w-full" formControlName="stockQuantity" type="number" min="0" step="1" />
+  </label>
+
+  <label class="floating-label md:col-span-2">
+    <span>Proveedor</span>
+    <input
+      type="text"
+      class="input input-bordered w-full"
+      placeholder="Selecciona proveedor"
+      list="providers-list"
+      formControlName="providerName"
+      (input)="onProviderInput(providerInput.value)"
+      (blur)="onProviderBlur()"
+      #providerInput />
+    @if(isValidField('providerId')){
+    <p class="text-error text-sm mt-1">{{ getFieldError('providerId') }}</p>
+    }
+
+    <datalist id="providers-list">
+      @for(provider of providersQuery.data()?.itemsArray ?? []; track provider.id){
+      <option [value]="provider.name"></option>
+      }
+    </datalist>
+  </label>
+
+  <label class="floating-label">
+    <span>SKU</span>
+    <input class="input input-bordered w-full" formControlName="sku" placeholder="SKU opcional" />
+  </label>
+
+  <label class="floating-label">
+    <span>Categoría</span>
+    <input class="input input-bordered w-full" formControlName="category" placeholder="Categoría" />
+  </label>
+
+  <label class="floating-label md:col-span-2">
+    <span>Dimensiones</span>
+    <input class="input input-bordered w-full" formControlName="dimensions" placeholder="Ejemplo: 10x20x30" />
+  </label>
+
+  <label class="floating-label md:col-span-2">
+    <span>Descripción</span>
+    <textarea class="textarea textarea-bordered w-full" rows="4" formControlName="description"></textarea>
+  </label>
+
+  <div class="md:col-span-2 flex justify-end gap-3 mt-2">
+    <a class="btn btn-ghost" [routerLink]="['/products/list']">Cancelar</a>
+    <button class="btn btn-success" type="submit" [disabled]="mutationSave.isPending()">
+      <span class="loading loading-spinner" [class.hidden]="!mutationSave.isPending()"></span>
+      Guardar
+    </button>
+  </div>
+</form>
+
+<app-alert />

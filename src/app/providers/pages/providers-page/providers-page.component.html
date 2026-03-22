@@ -1,1 +1,51 @@
-<p>providers-page.component works!</p>,
+	@if(providersQuery.error()){
+	<error-banner
+		[errorBanner]="{message: 'Ocurrió un error inesperado', error: providersQuery.error()?.message ?? 'Verifique los logs del servidor'}"></error-banner>
+	}
+
+  @if(!providersQuery.error()){
+    <app-title [titleDetail]="titleData()" />
+
+    <div class="divider"></div>
+
+    <div class="grid grid-cols-1 md:grid-cols-[180px_1fr_auto_auto] gap-3">
+      <app-limit [limitInput]="limitPerPage()" (outputLimit)="onNewLimit($event)" />
+
+      <label class="floating-label w-full">
+        <span>Buscar por nombre</span>
+        <input #txtFilter class="input input-bordered w-full" [value]="searchFilter()" placeholder="Proveedor..." />
+      </label>
+
+      <button class="btn btn-soft btn-info" (click)="onSearch(txtFilter.value)">Buscar</button>
+      <button class="btn btn-soft" (click)="onClear(); txtFilter.value = ''">Limpiar</button>
+    </div>
+
+    <div class="flex flex-col gap-4 mt-5">
+      <div class="flex justify-end">
+        <a class="btn btn-soft btn-success" [routerLink]="['/providers/detail', '0']">
+          <span class="icon-[gridicons--create] text-2xl"></span>
+          Crear nuevo registro
+        </a>
+      </div>
+
+      <app-pagination
+        [currentPage]="providersQuery.data()?.currentPage ?? 1"
+        [totalPages]="providersQuery.data()?.totalPages ?? 1"></app-pagination>
+
+
+
+      <provider-table
+        [providers]="providersQuery.data()?.itemsArray ?? []"
+        [isLoading]="providersQuery.isLoading()"
+        [skeletonLimit]="limitPerPage()"
+        (deleteClicked)="openDeleteModal($event)"></provider-table>
+
+      <app-pagination
+        [currentPage]="providersQuery.data()?.currentPage ?? 1"
+        [totalPages]="providersQuery.data()?.totalPages ?? 1"></app-pagination>
+    </div>
+
+    <delete-action-modal />
+    <app-alert />
+
+  }
