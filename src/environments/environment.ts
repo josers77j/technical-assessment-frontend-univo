@@ -1,3 +1,3 @@
 export const environment = {
-  baseUrl: 'https://huezo-backend-app.onrender.com/api',
+  baseUrl: 'https://technical-assessment-backend-univo.onrender.com/api/v1',
 };
